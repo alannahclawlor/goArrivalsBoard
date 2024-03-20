@@ -1,0 +1,85 @@
+{
+    "flights": [
+    {
+        "from": "Manchester",
+        "to": "London",
+        "code": "BA1393",
+        "scheduled_departure": "2024-03-14T12:05:00Z",
+        "scheduled_arrival": "2024-03-14T13:05:00Z",
+        "status": {
+        "arrived": "",
+        "cancelled": false,
+        "expected_at": "2024-03-14T13:08:10Z"
+        }
+    },
+    {
+        "from": "Hyderabad",
+        "to": "London",
+        "code": "BA276",
+        "scheduled_departure": "2024-03-14T01:55:00Z",
+        "scheduled_arrival": "2024-03-14T12:45:00Z",
+        "status": {
+        "arrived": "",
+        "cancelled": true,
+        "expected_at": ""
+        }
+    },
+    {
+        "from": "Calgary",
+        "to": "London",
+        "code": "WS18",
+        "scheduled_departure": "2024-03-14T04:10:00Z",
+        "scheduled_arrival": "2024-03-14T12:50:00Z",
+        "status": {
+        "arrived": "",
+        "cancelled": false,
+        "expected_at": "2024-03-14T13:03:40Z"
+        }
+    },
+    {
+        "from": "Zurich",
+        "to": "London",
+        "code": "LX332",
+        "scheduled_departure": "2024-03-14T11:10:00Z",
+        "scheduled_arrival": "2024-03-14T13:00:00Z",
+        "status": {
+        "arrived": "2024-03-14T13:00:00Z",
+        "cancelled": false,
+        "expected_at": "2024-03-14T12:59:00Z"
+        }
+    },
+    {
+        "from": "Doha",
+        "to": "London",
+        "code": "QR7",
+        "scheduled_departure": "2024-03-14T05:45:00Z",
+        "scheduled_arrival": "2024-03-14T13:20:00Z",
+        "status": {
+        "arrived": "",
+        "cancelled": false,
+        "expected_at": "2024-03-14T13:02:00Z"
+        }
+    },
+    {
+        "from": "San Francisco",
+        "to": "London",
+        "code": "VS20",
+        "scheduled_departure": "2024-03-14T02:40:00Z",
+        "scheduled_arrival": "2024-03-14T12:55:00Z",
+        "status": {
+        "arrived": "2024-03-14T12:55:00Z",
+        "cancelled": false,
+        "expected_at": "2024-03-14T12:57:00Z"
+        }
+    }
+    ],
+    "airports": {
+    "DOH": "Doha",
+    "HYD": "Hyderabad",
+    "LHR": "London",
+    "MAN": "Manchester",
+    "SFO": "San Francisco",
+    "YYC": "Calgary",
+    "ZRH": "Zurich"
+    }
+}
