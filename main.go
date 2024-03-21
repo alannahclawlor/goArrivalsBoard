@@ -12,6 +12,7 @@ func main() {
 
 	// creates the arrivals board and adds the json fights to the Jflight struct
 	ArrivalsBoard, err := flights.ReadJSONFile("flights/flightData.json")
+	fmt.Print(ArrivalsBoard)
 	if err != nil {
 		fmt.Print("Arrival board error ", err.Error())
 	}

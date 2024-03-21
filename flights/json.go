@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"time"
-	"reflect"
 )
 
 // Struct for flight status
@@ -28,53 +27,41 @@ type JFlight struct {
 	Code   string    `json:"code"`
 	From   string    `json:"from"`
 	Time   time.Time `json:"scheduled_arrival"`
-	Status JStatus   `json:"status"`
+	Status FStatus
 }
 
+// Function to convert JStatus to FStatus
 func (j JStatus) JStatusConvert() FStatus {
-	val := reflect.ValueOf(j)
-
-	for i := 0; i < val.NumField(); i++ {
-        
-        fieldValue := val.Field(i)
-
-		fieldType := fieldValue.Type()
-
-		if fieldType.Kind() == reflect.String {
-			time, error := time.Parse("15:04", j)
-
-}
-	}
-
-func (j JStatus) JStatusConvert() FStatus {
-	val := reflect.ValueOf(j)
 	fStatus := FStatus{}
 
-	for i := 0; i < val.NumField(); i++ {
-		field := val.Field(i)
-		fieldType := field.Type()
-
-		if fieldType.Kind() == reflect.String {
-			timeStr := field.String()
-			parsedTime, err := time.Parse("15:04", timeStr)
-			if err != nil {
-				fmt.Printf("Error parsing time string: %v\n", err)
-				continue
-			}
-
-			switch i {
-			case 0:
-				fStatus.Arrived = parsedTime
-			case 1:
-				fStatus.Expected = parsedTime
-			}
+	// Convert 'Arrived' string to time if not empty
+	if j.Arrived != "" {
+		arrivedTime, err := time.Parse("2006-01-02T15:04:05Z", j.Arrived)
+		if err != nil {
+			fmt.Printf("Error parsing arrived time string: %v\n", err)
+		} else {
+			fStatus.Arrived = arrivedTime
 		}
+	} else {
+		fStatus.Arrived = time.Time{} // Set to zero time if empty
+	}
+
+	// Convert 'Expected' string to time if not empty
+	if j.Expected != "" {
+		expectedTime, err := time.Parse("2006-01-02T15:04:05Z", j.Expected)
+		if err != nil {
+			fmt.Printf("Error parsing expected time string: %v\n", err)
+		} else {
+			fStatus.Expected = expectedTime
+		}
+	} else {
+		fStatus.Expected = time.Time{} // Set to zero time if empty
 	}
 
 	fStatus.Cancelled = j.Cancelled
+
 	return fStatus
 }
-
 
 func ReadJSONFile(filename string) ([]JFlight, error) {
 	var data struct {
@@ -122,3 +109,17 @@ func (f JFlight) GetStatus() string {
 	}
 
 }
+
+// val := reflect.ValueOf(j)
+
+// 	for i := 0; i < val.NumField(); i++ {
+
+//         fieldValue := val.Field(i)
+
+// 		fieldType := fieldValue.Type()
+
+// 		if fieldType.Kind() == reflect.String {
+// 			time, error := time.Parse("15:04", j)
+
+// }
+// 	}
