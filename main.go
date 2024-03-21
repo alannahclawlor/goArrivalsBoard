@@ -13,7 +13,7 @@ func main() {
 	// creates the arrivals board and adds the json fights to the Jflight struct
 	ArrivalsBoard, err := flights.ReadJSONFile("flights/flightData.json")
 	if err != nil {
-		println(err.Error())
+		fmt.Print("Arrival board error ", err.Error())
 	}
 
 	// sorts the flights by time order (not sure if this should be in the json.go code)
