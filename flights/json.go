@@ -65,7 +65,12 @@ func (j JStatus) JStatusConvert() FStatus {
 
 func ReadJSONFile(filename string) ([]JFlight, error) {
 	var data struct {
-		Flights []JFlight `json:"flights"`
+		Flights []struct {
+			Code   string `json:"code"`
+			From   string `json:"from"`
+			Time   string `json:"scheduled_arrival"`
+			Status JStatus
+		} `json:"flights"`
 	}
 
 	// Open the JSON file
@@ -79,13 +84,38 @@ func ReadJSONFile(filename string) ([]JFlight, error) {
 	// Decodes the json file
 	decoder := json.NewDecoder(file)
 
-	// adds the json data to the private data struct to access the flight key for the nested flight objects
+	// Decode JSON data into 'data' struct
 	if err := decoder.Decode(&data); err != nil {
 		fmt.Println("Decode Json error: ", err)
 		return nil, err
 	}
-	fmt.Println("Data:", data.Flights)
-	return data.Flights, nil
+
+	// Create a slice to hold JFlight instances
+	var flights []JFlight
+
+	// Iterate over the flights data and populate JFlight instances
+	for _, flightData := range data.Flights {
+		// Convert the time string to a time.Time object
+		scheduledArrival, err := time.Parse(time.RFC3339, flightData.Time)
+		if err != nil {
+			fmt.Printf("Error parsing time for flight %s: %v\n", flightData.Code, err)
+			continue // Skip this flight if time parsing fails
+		}
+
+		// Convert the status data to FStatus
+		status := flightData.Status.JStatusConvert()
+
+		// Create a new JFlight instance and append it to the flights slice
+		flight := JFlight{
+			Code:   flightData.Code,
+			From:   flightData.From,
+			Time:   scheduledArrival,
+			Status: status,
+		}
+		flights = append(flights, flight)
+	}
+
+	return flights, nil
 }
 
 // Function to print flight data
@@ -93,7 +123,6 @@ func PrintFlights(Flights []JFlight) {
 	fmt.Println("Time From Code Status")
 	for _, flight := range Flights {
 		flightStatus := flight.GetStatus()
-		fmt.Println("Flight status print", flightStatus)
 		formattedTime := flight.Time.Format("15:04")
 		fmt.Printf("%s %s %s, %s\n", formattedTime, flight.From, flight.Code, flightStatus)
 	}
